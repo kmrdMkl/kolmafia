@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -170,5 +171,11 @@ public class Player {
   public static Cleanups usedAbsorbs(int absorbs) {
     KoLCharacter.setAbsorbs(absorbs);
     return new Cleanups(() -> usedAbsorbs(0));
+  }
+
+  public static Cleanups canInteract(boolean canInteract) {
+    var old = CharPaneRequest.canInteract();
+    CharPaneRequest.setCanInteract(canInteract);
+    return new Cleanups(() -> CharPaneRequest.setCanInteract(old));
   }
 }
