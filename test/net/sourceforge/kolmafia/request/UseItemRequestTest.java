@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Test;
 
-class UseItemRequestTest extends RequestTestBase {
+class UseItemRequestTest {
 
   // We don't use @BeforeEach here because it's specific to milk-related tests.
   private void milkSetup() {
@@ -39,8 +39,8 @@ class UseItemRequestTest extends RequestTestBase {
 
     UseItemRequest req = getUseMilkRequest();
     // Wiki claims that this message is indeed "You stomach ..."
-    expectSuccess(req, "You stomach immediately begins to churn");
-    req.run();
+    req.responseText = "You stomach immediately begins to churn";
+    req.processResults();
 
     assertTrue(Preferences.getBoolean("_milkOfMagnesiumUsed"));
     assertTrue(Preferences.getBoolean("milkOfMagnesiumActive"));
@@ -53,8 +53,8 @@ class UseItemRequestTest extends RequestTestBase {
     assertFalse(Preferences.getBoolean("_milkOfMagnesiumUsed"));
 
     UseItemRequest req = getUseMilkRequest();
-    expectSuccess(req, "it was pretty hard on the old gullet.");
-    req.run();
+    req.responseText = "it was pretty hard on the old gullet.";
+    req.processResults();
 
     assertTrue(Preferences.getBoolean("_milkOfMagnesiumUsed"));
   }
